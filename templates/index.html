@@ -19,9 +19,9 @@
     });
 
     op = $(html)[2].innerHTML;
-    var masterOP = ["Fuck Yea", "Do it Fag, do it right now", "Vat?", "/coolface on", "BR?BR?", "∴"]
+    var masterOP = ["Fuck Yea", "Do it Fag, do it right now", "Vat?", "/coolface on", "BR?BR?", "new fags can't triforce", "Phyton? Hubby?"]
     fisherYates(masterOP);
-    var quote = $(html)[2].innerHTML.match("<a") ? masterOP[0] : $(html)[2].innerHTML;
+    var quote = $(html)[2].innerHTML.match("<a") || $(html)[2].innerHTML == "" ? masterOP[0] : $(html)[2].innerHTML;
 
     jQuery('body').append('<h1>' + quote + '</h1>') 
     jQuery('body').append('<div class="center"><img src="/ajax/?url=' + $(html)[0].innerHTML + '" /></div>');
