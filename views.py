@@ -8,7 +8,7 @@ def htmlSource(request):
   sock = urllib.urlopen("http://boards.4chan.org/" + boards[0])    
   logging.info("url %s", sock.geturl())
   i = 0
-  while  sock.geturl() == "http://www.4chan.org/" or sock.geturl() == "http://www.4chan.org/banned":
+  while sock.geturl() == "http://www.4chan.org/" or sock.geturl() == "http://www.4chan.org/banned":
     i += 1
     sock.close()
     random.shuffle(boards)
@@ -27,10 +27,7 @@ def htmlSource(request):
   realQuotes = re.findall('<blockquote>.*',quotesHtml)
   logging.info("images all %s", allImages)
   logging.info("quotes real %s",realQuotes)
-  realImages = []
-  for image in allImages:
-    realImages.append(re.search('(http://images.*)', image).group(0))
-  
+  realImages = [re.search('(http://images.*)', image).group(0) for image in images]
   random.shuffle(realImages)
   random.shuffle(realQuotes)
   logging.info("images %s", realImages)
@@ -39,10 +36,12 @@ def htmlSource(request):
 
 def ajax(request):
   sock = urllib.urlopen(request.GET['url'])
+  while  sock.geturl() == "http://www.4chan.org/" or sock.geturl() == "http://www.4chan.org/banned":
+    sock.close()
+    sock = urllib.urlopen(request.GET['url'])
+
   img = sock.read()
-  logging.info(img)
   sock.close()
-  logging.info(img)
   return HttpResponse(img, mimetype="image/jpg")
 
 def index(request):
