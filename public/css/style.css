@@ -1,0 +1,18 @@
+body{
+  background-color:#ececec;
+}
+
+
+h1{
+  font-style:italic;
+  font-family:'Georgia', Arial, serif;
+  text-align:center; 
+}
+
+.center{
+  text-align:center;
+}
+
+small{
+  font-weight:bold;
+}

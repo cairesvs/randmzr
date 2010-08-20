@@ -1,0 +1,102 @@
+<html>
+  <head>
+    <title>True Story, Bro</title>
+    <link rel="stylesheet" href="/site_media/style.css" type="text/css" media="all" charset="utf-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  </head>
+  <body>
+  </body>
+<script type="text/javascript" charset="utf-8">
+  jQuery(function(){
+    if(window.location.href.split("/")[3] == "")
+      window.location.href += "b";
+
+    html = '';
+    jQuery.ajax({
+      async: false,
+      url:"/board",
+      success: function(data){
+        html = data;
+      }
+    });
+    var a = jQuery(html).find('a');
+    var blockquotes = jQuery(html).find('blockquote');
+    children = a.children();
+
+    function forum(image, quote){
+      this.image = image;
+      this.quote = quote;
+
+      this.getImage = function(){
+        return this.image;
+      }
+
+      this.getQuote = function(){
+        return this.quote;
+      }
+
+      this.setImage = function(image){
+        this.image = image;
+      }
+
+      this.setQuote = function(quote){
+        this.quote = quote;
+      }
+    }
+
+
+    var forums = []
+
+    var count = 0;
+    a.each(function(){
+        if(jQuery(this).attr("target") == '_blank'){
+            if(this.id == '' && this.innerHTML.match("<img")){
+                if(this.href.match('images')){
+                    var f = new forum(this.href, '');
+                    var allQuotes = $(this).siblings("blockquote");
+                    allQuotes.each(function(){
+                      if(jQuery(this).html().match("<a")){
+                        jQuery(this).find('a').remove();
+                      }
+                    });
+                    console.log(count);
+                    console.log(allQuotes.length);
+                    console.log(allQuotes);
+                    if(allQuotes.length == 1){
+                      f.setQuote(allQuotes[0].innerHTML);
+                    }else if(allQuotes[count]){
+                      f.setQuote(allQuotes[count].innerHTML);
+                    }
+                    count++;
+                    forums.push(f);
+                }    
+            }
+        }
+    });
+
+    fisherYates(forums);
+    jQuery('body').append('<h1>' + forums[0].getQuote() + '</h1>') 
+    jQuery('body').append('<div class="center"><img src="/ajax/?url=' + forums[0].getImage() + '" /></div>');
+    jQuery('body').append('<div class="center"><small>Mad props to 4chan crew, all images and quotes are from 4chan.org go and checkout <a href="http://www.4chan.org/">4chan</a></small></div>');
+    jQuery('body').append('<div class="center"><small>I dont own anything of those images and quotes, all right?</small></div>');
+
+    //setTimeout(function(){ window.location.reload(false) }, 10000);
+  });
+
+    function fisherYates( myArray ) {
+      var i = myArray.length;
+      if ( i == 0 ) return false;
+      while ( --i ) {
+        var j = Math.floor( Math.random() * ( i + 1 ) );
+        var tempi = myArray[i];
+        var tempj = myArray[j];
+        myArray[i] = tempj;
+        myArray[j] = tempi;
+      }
+    }
+      
+
+</script>
+
+</html>
+
