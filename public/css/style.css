@@ -16,3 +16,8 @@ small{
   font-family: Arial, sans-serif;
   font-weight:bold;
 }
+
+img{
+  width:800px;
+  height:600px;
+}

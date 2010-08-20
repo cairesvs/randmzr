@@ -27,7 +27,7 @@ def htmlSource(request):
   realQuotes = re.findall('<blockquote>.*',quotesHtml)
   logging.info("images all %s", allImages)
   logging.info("quotes real %s",realQuotes)
-  realImages = [re.search('(http://images.*)', image).group(0) for image in images]
+  realImages = [re.search('(http://images.*)', image).group(0) for image in allImages]
   random.shuffle(realImages)
   random.shuffle(realQuotes)
   logging.info("images %s", realImages)
