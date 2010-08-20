@@ -4,8 +4,16 @@ runtime: python
 api_version: 1
 
 handlers:
-- url: /static
-  static_dir: static
+- url: /media
+  static_dir: public
+
+- url: /favicon.ico
+  static_files: public/favicon.ico
+  upload: public/favicon.ico
+
+- url: /robots.txt
+  static_files: public/robots.txt
+  upload: public/robots.txt
 
 - url: /.*
   script: main.py

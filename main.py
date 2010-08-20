@@ -9,7 +9,6 @@ settings._target = None
 
 # Must set this env var before importing any part of Django
 # 'project' is the name of the project created with django-admin.py
-#os.environ['DJANGO_SETTINGS_MODULE'] = 'randmzr.settings'
 os.environ["DJANGO_SETTINGS_MODULE"] = "settings"
 
 import django.core.handlers.wsgi

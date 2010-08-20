@@ -3,7 +3,7 @@ import urllib,logging, random,re
 from django.shortcuts import render_to_response
 
 def htmlSource(request):
-  boards = ['sp','b','g','v','mu','lit','ic','x','co','vp']
+  boards = ['r','s','sp','b','g','v','mu','lit','ic','x','co','vp']
   random.shuffle(boards)
   sock = urllib.urlopen("http://boards.4chan.org/" + boards[0])    
   logging.info("url %s", sock.geturl())
