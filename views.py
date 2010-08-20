@@ -6,12 +6,12 @@ def htmlSource(request):
   boards = ['sp','b','g','v','mu','lit','ic','x','co','vp']
   random.shuffle(boards)
   sock = urllib.urlopen("http://boards.4chan.org/" + boards[0])    
-  usock = urllib.urlopen('htt://boards.4chan.org/b')
+  usock = urllib.urlopen('http://boards.4chan.org/b')
   logging.debug("url %s", sock.geturl())
   i = 0
   marotao = sock.geturl() == "http://www.4chan.org/" or sock.geturl() == "http://www.4chan.org/banned"
   quotas = usock.geturl() == "http://www.4chan.org/" or usock.geturl() == "http://www.4chan.org/banned"
-  while marotao && quotas:
+  while marotao and quotas:
     i += 1
     sock.close()
     usock.close()
@@ -24,7 +24,7 @@ def htmlSource(request):
   quotesHtml = usock.read()
   sock.close()
   allImages = re.findall('<a href="(.*images.*)" target="_blank">',html) 
-  allQuotes = re.findall('<blockquote>.*',quotesHtml)
+  realQuotes = re.findall('<blockquote>.*',quotesHtml)
   realImages = []
   for image in allImages:
     realImages.append(re.search('(http://images.*)', image).group(0))
