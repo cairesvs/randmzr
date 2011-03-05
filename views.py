@@ -7,8 +7,9 @@ def htmlSource(request):
   chan = FourChan()
   fukung = Fukung()
   senorgif = Senorgif()
+  knowyourmeme = Knowyourmeme()
   realImages = []
-  realImages = chan.do().images() + fukung.do().images() + senorgif.do().images() 
+  realImages =  fukung.do().images() + chan.do().images() + senorgif.do().images() + knowyourmeme.do().images() 
   random.shuffle(realImages)
   return render_to_response('boardTemplate.html', {'image' : realImages[0]})
 
@@ -61,15 +62,37 @@ class Fukung(object):
     
   def images(self):
     fukung = BeautifulSoup(self.html)
-    return [fukung.findAll('img', {'class' : 'fukung'})[0].attrMap['src']]
+    try:
+      return [fukung.findAll('img', {'class' : 'fukung'})[0].attrMap['src']]
+    except Exception, e:
+      raise []
 
 class Senorgif(object):
   def do(self):
-    sock = urllib.urlopen('http://senorgif.memebase.com/page/' + str(random.randint(1,50))) 
+    page = 'http://senorgif.memebase.com/page/' + str(random.randint(1,50))
+    sock = urllib.urlopen(page) 
     self.html = sock.read()
     sock.close()
     return self
 
   def images(self):
     senorgif = BeautifulSoup(self.html)
-    return [senorgif.findAll('img', {'class' : 'event-item-lol-image'})[0].attrMap['src']]
+    img = senorgif.findAll('img', {'class' : 'event-item-lol-image'})
+    try:
+      return [img[random.randint(1, 5)].attrMap['src']]
+    except Exception, e:
+      return []
+
+class Knowyourmeme(object):
+  def do(self):
+    sock = urllib.urlopen('http://knowyourmeme.com/photos?page=' + str(random.randint(1,3000))) 
+    self.html = sock.read()
+    sock.close()
+    return self
+
+  def images(self):
+    knowyourmeme = BeautifulSoup(self.html)
+    section = knowyourmeme.find('section', id='photos')
+    img = section.findAll('img', alt='')
+    return [img[random.randint(1, 20)].attrMap['src'].replace('list', 'original')] 
+
