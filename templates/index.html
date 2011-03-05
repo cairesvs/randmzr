@@ -19,7 +19,10 @@
       url:"/board",
       success: function(data){
         html = data;
-        setTimeout(ajax, 10000);
+        if(jQuery(html) && jQuery(html).innerHTML.match(".gif$"))
+          setTimeout(ajax, 20000);
+        else
+          setTimeout(ajax, 7000);
       }
     });
     console.log(html)
