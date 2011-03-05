@@ -4,32 +4,33 @@
     <link rel="stylesheet" href="/media/css/style.css" type="text/css" media="all" charset="utf-8">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script type="text/javascript">
-      var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-18105047-1']);_gaq.push(['_trackPageview']);(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();
+      //var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-18105047-1']);_gaq.push(['_trackPageview']);(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();
     </script>
   </head>
   <body>
+    <div id="image" class="center"></div>
+    <div class="center"><small>Random images for flurry days :)</small></div>
   </body>
 <script type="text/javascript" charset="utf-8">
-  jQuery(function(){
+  function ajax(){
     var html = '';
     jQuery.ajax({
       async: false,
       url:"/board",
       success: function(data){
         html = data;
+        setTimeout(ajax, 10000);
       }
     });
+    console.log(html)
     if(jQuery(html)[0]){
-      jQuery('body').append('<div class="center"><img src="/ajax/?url=' + $(html)[0].innerHTML + '" /></div>');
-      jQuery('body').append('<div class="center"><small>Random images for flurry days :)</small></div>');
+      jQuery('#image').html('<img src="/ajax/?url=' + $(html)[0].innerHTML + '" />');
     }else{
       window.location.reload(false);
     }
-    setTimeout(function(){ window.location.reload(false) }, 12500);
-  });
+  }
 
-
-
+  ajax();
 </script>
 
 </html>
