@@ -6,8 +6,9 @@ from django.shortcuts import render_to_response
 def htmlSource(request):
   chan = FourChan()
   fukung = Fukung()
+  senorgif = Senorgif()
   realImages = []
-  realImages = chan.do().images() + fukung.do().images() 
+  realImages = chan.do().images() + fukung.do().images() + senorgif.do().images() 
   random.shuffle(realImages)
   return render_to_response('boardTemplate.html', {'image' : realImages[0]})
 
@@ -61,3 +62,14 @@ class Fukung(object):
   def images(self):
     fukung = BeautifulSoup(self.html)
     return [fukung.findAll('img', {'class' : 'fukung'})[0].attrMap['src']]
+
+class Senorgif(object):
+  def do(self):
+    sock = urllib.urlopen('http://senorgif.memebase.com/page/' + str(random.randint(1,50))) 
+    self.html = sock.read()
+    sock.close()
+    return self
+
+  def images(self):
+    senorgif = BeautifulSoup(self.html)
+    return [senorgif.findAll('img', {'class' : 'event-item-lol-image'})[0].attrMap['src']]
