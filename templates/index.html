@@ -10,7 +10,6 @@
   <body>
   </body>
 <script type="text/javascript" charset="utf-8">
-  setTimeout(function(){ window.location.reload(false) }, 12500);
   jQuery(function(){
     var html = '';
     jQuery.ajax({
@@ -20,9 +19,13 @@
         html = data;
       }
     });
-
-    jQuery('body').append('<div class="center"><img src="/ajax/?url=' + $(html)[0].innerHTML + '" /></div>');
-    jQuery('body').append('<div class="center"><small>Random images for flurry days :)</small></div>');
+    if(jQuery(html)[0]){
+      jQuery('body').append('<div class="center"><img src="/ajax/?url=' + $(html)[0].innerHTML + '" /></div>');
+      jQuery('body').append('<div class="center"><small>Random images for flurry days :)</small></div>');
+    }else{
+      window.location.reload(false);
+    }
+    setTimeout(function(){ window.location.reload(false) }, 12500);
   });
 
 
