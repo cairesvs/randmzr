@@ -4,12 +4,8 @@ import urllib,logging, random,re
 from django.shortcuts import render_to_response
 
 def htmlSource(request):
-  chan = FourChan()
-  fukung = Fukung()
-  senorgif = Senorgif()
-  knowyourmeme = Knowyourmeme()
   realImages = []
-  realImages =  fukung.do().images() + chan.do().images() + senorgif.do().images() + knowyourmeme.do().images() 
+  realImages = FourChan().do().images() + Fukung().do().images() + Senorgif().do().images() + Knowyourmeme().do().images()
   random.shuffle(realImages)
   return render_to_response('boardTemplate.html', {'image' : realImages[0]})
 
@@ -63,9 +59,9 @@ class Fukung(object):
   def images(self):
     fukung = BeautifulSoup(self.html)
     try:
-      return [fukung.findAll('img', {'class' : 'fukung'})[0].attrMap['src']]
+      return [fukung.find('img', {'class' : 'fukung'}).attrMap['src']]
     except Exception, e:
-      raise []
+      return []
 
 class Senorgif(object):
   def do(self):
@@ -77,8 +73,8 @@ class Senorgif(object):
 
   def images(self):
     senorgif = BeautifulSoup(self.html)
-    img = senorgif.findAll('img', {'class' : 'event-item-lol-image'})
     try:
+      img = senorgif.findAll('img', {'class' : 'event-item-lol-image'})
       return [img[random.randint(1, 5)].attrMap['src']]
     except Exception, e:
       return []
@@ -92,7 +88,10 @@ class Knowyourmeme(object):
 
   def images(self):
     knowyourmeme = BeautifulSoup(self.html)
-    section = knowyourmeme.find('section', id='photos')
-    img = section.findAll('img', alt='')
-    return [img[random.randint(1, 20)].attrMap['src'].replace('list', 'original')] 
+    try:
+      section = knowyourmeme.find('section', id='photos')
+      img = section.findAll('img', alt='')
+      return [img[random.randint(1, 20)].attrMap['src'].replace('list', 'original')] 
+    except Exception, e:
+      return []
 
