@@ -24,7 +24,7 @@ def index(request):
 
 class FourChan(object):
   def do(self):
-    boards = ['sp','b','g','v','mu','lit','ic','x','co','vp']
+    boards = ['i','b','an','ic','a','sp','g','v','mu','lit','ic','x','co','vp']
     random.shuffle(boards)
     sock = urllib.urlopen("http://boards.4chan.org/" + boards[0])    
     i = 0
