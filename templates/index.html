@@ -19,7 +19,6 @@
         if(jQuery(html)[0]){
           jQuery('#image').html('<img src="/ajax/?url=' + $(html)[0].innerHTML + '" />');
         }else{
-          alert('pauizin');
           ajax();
         }
         if(jQuery(html)[0] && jQuery(html)[0].innerHTML.match(".gif$")){

@@ -4,10 +4,16 @@ import urllib,logging, random,re
 from django.shortcuts import render_to_response
 
 def htmlSource(request):
-  realImages = []
-  realImages = FourChan().do().images() + Fukung().do().images() + Senorgif().do().images() + Knowyourmeme().do().images()
-  random.shuffle(realImages)
-  return render_to_response('boardTemplate.html', {'image' : realImages[0]})
+  sites = ['FourChan', 'Fukung', 'Senorgif', 'Knowyourmeme' ]
+  random.shuffle(sites)
+  images = []; 
+  images = globals()[sites[0]]().do().images()
+  while not images:
+   logging.info('sites')
+   random.shuffle(sites)
+   images = globals()[sites[0]]().do().images() 
+  random.shuffle(images)
+  return render_to_response('boardTemplate.html', {'image' : images[0]})
 
 def ajax(request):
   sock = urllib.urlopen(request.GET['url'])
