@@ -4,7 +4,6 @@ import urllib,logging, random,re
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
 from django.template import Context, loader
-from rfc3339 import rfc3339
 
 def htmlSource(request):
   sites = ['FourChan', 'Fukung', 'Senorgif', 'Knowyourmeme' ]
