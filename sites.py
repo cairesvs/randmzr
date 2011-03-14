@@ -1,3 +1,6 @@
+import urllib,logging, random,re
+from BeautifulSoup import BeautifulSoup
+
 class FourChan(object):
   def do(self):
     boards = ['i','b','an','ic','a','sp','g','v','mu','lit','ic','x','co','vp']
