@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     # (r'^admin/(.*)', admin.site.root),
    
     (r'^$','views.index'),
+    (r'^rss/$','views.rss'),
     (r'^ajax/$','views.ajax'),
-    (r'^board/$','views.htmlSource'),
+    (r'^board/$','views.htmlSource')
 )

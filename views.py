@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from BeautifulSoup import BeautifulSoup
 import urllib,logging, random,re
 from django.shortcuts import render_to_response
+from google.appengine.ext import db
 
 def htmlSource(request):
   sites = ['FourChan', 'Fukung', 'Senorgif', 'Knowyourmeme' ]
@@ -20,10 +21,17 @@ def ajax(request):
   while  sock.geturl() == "http://www.4chan.org/" or sock.geturl() == "http://www.4chan.org/banned":
     sock.close()
     sock = urllib.urlopen(request.GET['url'])
-
   img = sock.read()
   sock.close()
+  feed = Feed()
+  feed.url = request.GET['url']
+  feed.put()
   return HttpResponse(img, mimetype="image/jpg")
+
+def rss(request):
+  feeds = Feed.gql('LIMIT 10')
+  return render_to_response('rss.xml', {'feeds' : feeds})
+
 
 def index(request):
   return render_to_response('index.html')
@@ -100,4 +108,7 @@ class Knowyourmeme(object):
       return [img[random.randint(1, 20)].attrMap['src'].replace('list', 'original')] 
     except Exception, e:
       return []
+
+class Feed(db.Model):
+  url = db.StringProperty(multiline=True)
 
