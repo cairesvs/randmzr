@@ -7,6 +7,7 @@
   <body>
     <div id="image" class="center"></div>
     <div class="center"><small>Random images for flurry days :)</small></div>
+    <div class="center"><button onclick="ajax();">For more random images, click here!</button></div>
   </body>
 <script type="text/javascript" charset="utf-8">
   function ajax(){
@@ -16,15 +17,11 @@
         ajax();
       },
       success: function(html){
-        if(jQuery(html)[0]){
-          jQuery('#image').html('<img src="/ajax/?url=' + $(html)[0].innerHTML + '" />');
+        var response = $(html)[0];
+        if(response){
+          jQuery('#image').html('<p>Source to image: <a href="'+ response.innerHTML + '">'+ response.innerHTML + '</a></p><img onclick="ajax();" src="/ajax/?url=' + response.innerHTML + '" />');
         }else{
           ajax();
-        }
-        if(jQuery(html)[0] && jQuery(html)[0].innerHTML.match(".gif$")){
-          setTimeout(ajax, 20000);
-        }else{
-          setTimeout(ajax, 7000);
         }
       }
     });
