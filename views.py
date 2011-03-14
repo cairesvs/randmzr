@@ -33,7 +33,7 @@ def ajax(request):
 def rss(request):
   feeds = Feed.gql('ORDER BY date DESC LIMIT 10')
   t = loader.get_template('rss.xml')
-  c = Context({'feeds' : feeds, 'date' : feeds.fetch(1)[0].date, utc=True})
+  c = Context({'feeds' : feeds, 'date' : feeds.fetch(1)[0].date})
   return HttpResponse(t.render(c), mimetype="application/xml") 
 
 def index(request):
