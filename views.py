@@ -2,7 +2,6 @@ from django.http import HttpResponse
 from BeautifulSoup import BeautifulSoup
 import urllib,logging, random,re
 from django.shortcuts import render_to_response
-from google.appengine.ext import db
 from django.template import Context, loader
 from sites import *
 from feed import Feed 
@@ -34,7 +33,7 @@ def ajax(request):
 def rss(request):
   feeds = Feed.gql('ORDER BY date DESC LIMIT 10')
   t = loader.get_template('rss.xml')
-  c = Context({'feeds' : feeds, 'date' : feeds.fetch(1)[0].date})
+  c = Context({'feeds' : feeds, 'date' : not feeds.fetch(1) ? feeds.fetch(1)[0].date : []})
   return HttpResponse(t.render(c), mimetype="application/xml") 
 
 def index(request):
