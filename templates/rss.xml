@@ -1,21 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rss version="2.0" 
-	xmlns:content="http://purl.org/rss/1.0/modules/content/"
-	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
-	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	>
-<channel>
-  <title>Randmzr</title>
-  <link>http://randmzr.com</link>
-  {% for feed in feeds %}
-  <item> 
-    <title><![CDATA[{{feed.url}}]]></title> 
-    <pubDate></pubDate> 
-    <content:encoded>
-      <![CDATA[<div><a href="/ajax/?url={{feed.url}}"><img src="/ajax/?url={{feed.url}}"/></a></div>]]>
-    </content:encoded> 
-  <link><![CDATA[{{feed.url}}]]></link> 
-  </item> 
-  {% endfor %}
-</channel>
-</rss>
+<?xml version="1.0" encoding="UTF-8"?> 
+<feed xmlns="http://www.w3.org/2005/Atom"> 
+<title>Randmzr</title>
+<link href="http://randmzr.com/rss"/>
+<updated>{{ date }}</updated>
+<id>http://randmzr.com/rss</id> 
+{% for feed in feeds %}
+<entry> 
+  <id><![CDATA[{{feed.url}}]]></id> 
+  <title><![CDATA[{{feed.url}}]]></title>
+  <updated>{{ feed.date }}</updated> 
+  <content type="html"><![CDATA[<div><a href="/ajax/?url={{feed.url}}"><img src="/ajax/?url={{feed.url}}"/></a></div>]]></content> 
+  <link href="{{feed.url}}" /> 
+  <author>
+    <name>{{feed.url}}</name>
+  </author>
+</entry> 
+{% endfor %}
+</feed>

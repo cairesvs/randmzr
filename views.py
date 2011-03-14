@@ -3,6 +3,8 @@ from BeautifulSoup import BeautifulSoup
 import urllib,logging, random,re
 from django.shortcuts import render_to_response
 from google.appengine.ext import db
+from django.template import Context, loader
+from rfc3339 import rfc3339
 
 def htmlSource(request):
   sites = ['FourChan', 'Fukung', 'Senorgif', 'Knowyourmeme' ]
@@ -14,6 +16,9 @@ def htmlSource(request):
    random.shuffle(sites)
    images = globals()[sites[0]]().do().images() 
   random.shuffle(images)
+  feed = Feed()
+  feed.url = images[0]
+  feed.put()
   return render_to_response('boardTemplate.html', {'image' : images[0]})
 
 def ajax(request):
@@ -23,15 +28,13 @@ def ajax(request):
     sock = urllib.urlopen(request.GET['url'])
   img = sock.read()
   sock.close()
-  feed = Feed()
-  feed.url = request.GET['url']
-  feed.put()
   return HttpResponse(img, mimetype="image/jpg")
 
 def rss(request):
-  feeds = Feed.gql('LIMIT 10')
-  return render_to_response('rss.xml', {'feeds' : feeds})
-
+  feeds = Feed.gql('ORDER BY date DESC LIMIT 10')
+  t = loader.get_template('rss.xml')
+  c = Context({'feeds' : feeds, 'date' : feeds.fetch(1)[0].date, utc=True})
+  return HttpResponse(t.render(c), mimetype="application/xml") 
 
 def index(request):
   return render_to_response('index.html')
@@ -111,4 +114,5 @@ class Knowyourmeme(object):
 
 class Feed(db.Model):
   url = db.StringProperty(multiline=True)
+  date = db.DateTimeProperty(auto_now_add=True)
 
