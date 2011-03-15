@@ -37,5 +37,17 @@ def rss(request):
   return HttpResponse(t.render(c), mimetype="application/xml") 
 
 def index(request):
-  return render_to_response('index.html')
+  sites = ['Fukung', 'Senorgif', 'Knowyourmeme' ]
+  random.shuffle(sites)
+  images = [] 
+  images = globals()[sites[0]]().do().images()
+  while not images:
+   random.shuffle(sites)
+   images = globals()[sites[0]]().do().images() 
+  random.shuffle(images)
+  if not Feed.gql("WHERE url = :1", images[0]).fetch(1):
+    feed = Feed()
+    feed.url = images[0]
+    feed.put()
+  return render_to_response('index.html', {'image' : images[0]})
 

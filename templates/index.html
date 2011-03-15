@@ -6,7 +6,10 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   </head>
   <body>
-    <div id="image" class="center"></div>
+    <div id="image" class="center">
+      <p>Source to image: <a href="{{image}}">{{image}}</a></p>
+      <img onclick="ajax();" src="/ajax/?url={{image}}" /> 
+    </div>
     <div class="center"><small>Random images for flurry days :)</small></div>
     <div class="center"><button onclick="ajax();">For more random images, click here!</button></div>
   </body>
@@ -28,7 +31,6 @@
     });
   }
 
-  ajax();
 </script>
 <script type="text/javascript">
   var _gaq = _gaq || [];_gaq.push(['_setAccount', 'UA-18105047-1']);_gaq.push(['_trackPageview']);(function() {var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);})();
